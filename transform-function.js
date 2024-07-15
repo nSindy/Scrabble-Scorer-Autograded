@@ -12,7 +12,7 @@ const oldPointStructure = {
     let newObject = {};
     for (let item in oldPointStructure) {
         for (let i = 0; i < oldPointStructure[item].length; i++) {
-            newObject[oldPointStructure[item][i].toLowerCase()] = Number(item);
+            newObject[oldPointStructure[item][i].toLowerCase()]:Number(item);
         }
     }
     return newObject;

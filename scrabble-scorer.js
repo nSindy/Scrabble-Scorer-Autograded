@@ -13,7 +13,6 @@ const oldPointStructure = {
 };
 
 let newPointStructure = transform(oldPointStructure);
-
 newPointStructure[' '] = 0;
 
 let simpleStructure = {
@@ -45,30 +44,27 @@ let vowelBonusStructure = {
 
 function initialPrompt() {
    let word = input.question("Let's play some scrabble! Enter a word: ");
-   
    return word;
 };
 
 let simpleScorer = function(word){
    word = word.toUpperCase();
-   let letterPoints = '';
    let total = 0;
    for (let i = 0; i < word.length; i++){
       for (const pointValue in simpleStructure) {
          if (simpleStructure[pointValue].includes(word[i])) {
-            letterPoints += `Points for '${word[i]}': ${pointValue}\n`;
             total += Number(pointValue);
          }
        }
    }
-   return letterPoints, total;
+   return total;
 };
 
 let vowelBonusScorer = function(word){
    word = word.toUpperCase();
    let total = 0;
    for (let i = 0; i < word.length; i++){
-      for (pointValue in vowelBonusStructure){
+      for (let pointValue in vowelBonusStructure){
          if (vowelBonusStructure[pointValue].includes(word[i])){
             total += Number(pointValue);
          }
@@ -84,31 +80,31 @@ let scrabbleScorer = function(word){
       total += newPointStructure[word[i]];
       }
       return total;
-   }
+   };
 
 let simpleScore = {
    name: "Simple Score",
    description: "Each letter is worth 1 point.",
-   scoreFunction: simpleScorer
-}
+   scorerFunction: simpleScorer
+};
 
 let bonusVowels = {
    name: "Bonus Vowels",
    description: "Vowels are 3 pts, consonants are 1 pt.",
-   scoreFunction: vowelBonusScorer
-}
+   scorerFunction: vowelBonusScorer
+};
 
 let scrabble = {
    name: "Scrabble",
    description: "The traditional scoring algorithm.",
-   scoreFunction: scrabbleScorer
-}
+   scorerFunction: scrabbleScorer
+};
 
 const scoringAlgorithms = [simpleScore, bonusVowels, scrabble];
 
 function scorerPrompt(word) {
    let scorer = input.question("Choose your scoring method.\n0 -- Simple: 1 point per letter \n1 -- Vowel bonus: 3 points for vowels \n2 -- Traditional: Uses Scrabble score system\nSelect number: ")
-   return scoringAlgorithms[scorer].scoreFunction(word);
+   return scoringAlgorithms[scorer].scorerFunction(word);
 }
 
 function transform(oldPointStructure) {
